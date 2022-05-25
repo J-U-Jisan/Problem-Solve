@@ -1,28 +1,25 @@
-public class Solution {
-    public int[,] dp = new int[1002,1002];
+public class Solution {   
     
-    public int LCS(int i, int j, ref string a, ref string b){
-        if(i==a.Length || j==b.Length)
-            return 0;
-        
-        if(dp[i, j]!=-1)
-            return dp[i, j];
-        
-        if(a[i] == b[j])
-            dp[i, j] = 1 + LCS(i+1, j+1, ref a, ref b);
-        
-        else{
-            dp[i, j] = Math.Max(LCS(i+1, j, ref a, ref b), LCS(i, j+1, ref a, ref  b));
-        }
-        return dp[i, j];
-    }
     public int LongestCommonSubsequence(string text1, string text2) {
-           for(int i=0;i<text1.Length;i++){
-               for(int j=0;j<text2.Length;j++){
-                   dp[i, j] = -1;
-               }
-           }
+        int[,] dp = new int[1002, 1002];
+        int n = text1.Length;
+        int m = text2.Length;
+        for(int i=0;i<=n;i++){
+            dp[i, m] = 0;
+        }
+        for(int i=0;i<=m;i++){
+            dp[n, i] = 0;
+        }
         
-        return LCS(0, 0, ref text1, ref text2);
+        for(int i=n-1;i>=0;i--){
+            for(int j = m-1;j>=0;j--){
+                if(text1[i] == text2[j])
+                    dp[i, j] = dp[i+1, j+1]  + 1;
+                else
+                    dp[i, j] = Math.Max(dp[i, j+1], dp[i+1, j]);
+            }
+        }
+        
+        return dp[0,0];
     }
 }
