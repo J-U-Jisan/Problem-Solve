@@ -1,41 +1,44 @@
 public class Solution {
     public string DecodeString(string s) {
         Stack<char> st = new Stack<char>();
-        Stack<int> k = new Stack<int>();
+        Stack<int> cnt = new Stack<int>();
         int number = 0;
-        string temp = "";
-        foreach(var ch in s){
-            if(ch>='0' && ch<='9'){
-                number = number*10 + (ch-'0');
-            }
-            else if(ch == ']'){
-                int repeat = k.Pop();
-           
+        for(int i=0;i<s.Length;i++){
+            if(s[i]>='0' && s[i]<='9')
+                number = number*10 + (s[i] - '0');
+            else if(s[i] == ']'){
+                StringBuilder temp = new StringBuilder();
                 while(st.Peek() != '['){
-                    temp += st.Pop();
+                    temp.Append(st.Pop());
                 }
                 st.Pop();
-                while(Convert.ToBoolean(repeat--)){
-                    for(int i = temp.Length-1;i>=0;i--){
-                        st.Push(temp[i]);
+                number = cnt.Pop();
+                while(number>0){
+                    number--;
+                    for(int j = temp.Length-1; j>=0; j--){
+                        st.Push(temp[j]);
                     }
                 }
-                temp = "";
-                
+                number = 0;
             }
             else{
-                if(number >0 )
-                    k.Push(number);
+                if(number>0)
+                    cnt.Push(number);
                 number = 0;
-                
-                st.Push(ch);
+                st.Push(s[i]);
             }
         }
-        string output = "";
-        while(st.Count > 0){
-            output += st.Pop();
+        StringBuilder output = new StringBuilder();
+        while(st.Count>0){
+            output.Append(st.Pop());
         }
         
-        return new string(output.ToCharArray().Reverse().ToArray());
+        for(int i = 0, j = output.Length - 1 ;i<j; i++,j--){
+            char ch = output[i];
+            output[i] = output[j];
+            output[j] = ch;
+        }
+        
+        return output.ToString();
     }
 }
