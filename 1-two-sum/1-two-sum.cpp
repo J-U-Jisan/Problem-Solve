@@ -1,20 +1,14 @@
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
-        multiset < pair<int,int> > ms;
+        unordered_map<int,int>mp;
         for(int i=0;i<nums.size();i++){
-            ms.insert(make_pair(nums[i],i));
-        }
-        auto it= ms.begin(), jt=ms.end();
-        jt--;
-        for(;it!=jt && it!=ms.end();){
-            if(it->first+jt->first == target){
-                return vector<int>{it->second, jt->second};
+            if(mp.find(target-nums[i]) != mp.end())
+            {
+                return vector<int>{i, mp[target-nums[i]]};
             }
-            else if(it->first+jt->first>target)
-                jt--;
-            else it++;
+            mp[nums[i]] = i;
         }
-        return vector<int>();
+        return vector<int>{};
     }
 };
