@@ -1,7 +1,7 @@
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
-        set < pair<int,int> > ms;
+        multiset < pair<int,int> > ms;
         for(int i=0;i<nums.size();i++){
             ms.insert(make_pair(nums[i],i));
         }
