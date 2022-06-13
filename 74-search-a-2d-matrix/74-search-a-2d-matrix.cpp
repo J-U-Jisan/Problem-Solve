@@ -7,11 +7,10 @@ public:
         int left=0,right=matrix.size()*n-1;
         while(left<=right){
             int mid = (left+right)/2;
-            int i = mid/n;
-            int j = mid%n;
-            if(matrix[i][j]==target)
+         
+            if(matrix[mid/n][mid%n]==target)
                 return true;
-            else if(matrix[i][j]>target)
+            else if(matrix[mid/n][mid%n]>target)
                 right = mid-1;
             else left = mid+1;
         }
