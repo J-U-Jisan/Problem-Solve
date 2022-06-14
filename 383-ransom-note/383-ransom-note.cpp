@@ -6,9 +6,9 @@ public:
             cnt[magazine[i]-'a']++;
         }
         for(int i=0;i<ransomNote.size();i++){
-            if(!cnt[ransomNote[i]-'a'])
+            if(--cnt[ransomNote[i]-'a']<0)
                 return false;
-            cnt[ransomNote[i]-'a']--;
+            
         }
         return true;
     }
