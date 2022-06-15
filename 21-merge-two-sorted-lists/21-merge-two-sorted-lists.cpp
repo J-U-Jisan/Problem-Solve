@@ -11,61 +11,48 @@
 class Solution {
 public:
     ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
-        ListNode *head = NULL, *temp;
+        ListNode *head = NULL, *prev, *temp;
         while(list1  && list2 ){
-            ListNode* node = new ListNode();
+            
             if(list1->val > list2->val)
             {
-                node->val = list2->val;
+                ListNode* node = new ListNode(list2->val);
+            
                 if(head == NULL){
+                    node->next = list1;
                     head = node;
-                    temp = head;
                 }
                 else{
-                    temp->next = node;
-                    temp = temp->next;
+                    node->next = prev->next;
+                    prev->next = node;
                 }
+                prev = node;
                 list2 = list2->next;
             }
             else{
-                node->val = list1->val;
-                if(head == NULL){
-                    head = node;
-                    temp = head;
-                }
-                else{
-                    temp->next = node;
-                    temp = temp->next;
-                }
-                
+                if(head == NULL)
+                    head = list1;
+                prev = list1;
                 list1 = list1->next;
             }
         }
-        while(list1){
-            ListNode* node = new ListNode(list1->val);
+        
+        while(list2){
+            
             if(head == NULL){
-                head = node;
-                temp = head;
+                return list2;
             }
             else{
-                temp->next = node;
-                temp = temp->next;
+                ListNode* node = new ListNode(list2->val);
+                node->next = prev->next;
+                prev->next = node;
+                prev = node;
             }
             
-            list1 = list1->next;
-        }
-        while(list2){
-            ListNode* node = new ListNode(list2->val);
-            if(head == NULL){
-                head = node;
-                temp = head;
-            }
-            else{
-                temp->next = node;
-                temp = temp->next;
-            }
             list2 = list2->next;
         }
+        if(head== NULL)
+            return list1;
         return head;
     }
 };
