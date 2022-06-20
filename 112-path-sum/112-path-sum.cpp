@@ -14,16 +14,25 @@ public:
     bool hasPathSum(TreeNode* root, int targetSum) {
         if(!root)
             return false;
-        if(targetSum-root->val == 0 && root->left == nullptr && root->right == nullptr){
-            return true;
+        
+        stack<pair<TreeNode*, int> > st;
+        st.push(make_pair(root,targetSum - root->val));
+        
+        while(!st.empty()){
+            root = st.top().first;
+            int val = st.top().second;
+            st.pop();
+            
+            if(root->left){
+                st.push(make_pair(root->left, val - root->left->val));
+            }
+            
+            if(root->right){
+                st.push(make_pair(root->right, val - root->right->val));
+            }
+            if(val==0 && root->left == nullptr && root->right == nullptr)
+                return true;
         }
-        bool left = 0, right = 0;
-        if(root->left)
-            left = hasPathSum(root->left, targetSum - root->val);
-        if(root->right)
-            right = hasPathSum(root->right, targetSum - root->val);
-        
-        
-       return left || right;
+        return false;
     }
 };
