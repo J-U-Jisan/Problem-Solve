@@ -12,31 +12,10 @@
 class Solution {
 public:
     int maxDepth(TreeNode* root) {
-       unordered_map<TreeNode*, int> d;
-       queue<TreeNode*> q;
-       if(root){
-           q.push(root);
-           d[root]=1;
-       }
-       while(!q.empty()){
-           int sz = q.size();
-           for(int i=0;i<sz;i++){
-               root = q.front();
-               q.pop();
-               if(root->left){
-                   d[root->left] = d[root] + 1;
-                   q.push(root->left);
-               }
-               if(root->right){
-                   d[root->right] = d[root] + 1;
-                   q.push(root->right);
-               }
-           }
-       }
-       int mx = 0;
-       for(auto x:d){
-           mx = max(mx, x.second);
-       }
-       return mx;
+       if(!root)
+           return 0;
+       int leftDepth = maxDepth(root->left);
+       int rightDepth = maxDepth(root->right);
+       return max(leftDepth, rightDepth) + 1;
     }
 };
