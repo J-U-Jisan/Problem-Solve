@@ -15,18 +15,12 @@ public:
         if(!root)
             return root;
         
-        queue<TreeNode*>q;
-        q.push(root);
-        while(!q.empty()){
-            root =q.front();
-            if(root->val == val)
-                return root;
-            q.pop();
-            if(root->left)
-                q.push(root->left);
-            if(root->right)
-                q.push(root->right);
-        }
-        return NULL;
+        if(root->val == val)
+            return root;
+        
+        TreeNode* left = searchBST(root->left, val);
+        TreeNode* right = searchBST(root->right, val);
+        
+        return left?left: right;
     }
 };
