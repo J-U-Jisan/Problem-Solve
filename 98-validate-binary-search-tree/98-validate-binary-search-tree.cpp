@@ -12,32 +12,22 @@
 class Solution {
 public:
     bool isValidBST(TreeNode* root) {
-        vector<int>v;
-        while(root){
-            if(root->left){
-                TreeNode* temp = root->left;
-                while(temp->right && temp->right != root){
-                    temp = temp->right;
-                }
-                if(!temp->right){
-                    temp->right = root;
-                    root = root->left;
-                }
-                else{
-                    v.push_back(root->val);
-                    root = root->right;
-                    temp->right = NULL;
-                }
+        stack<TreeNode*>st;
+        TreeNode* pre=NULL;
+        while(root || !st.empty()){
+            while(root){
+                st.push(root);
+                root = root->left;    
             }
-            else{
-                v.push_back(root->val);
-                root = root->right;
-            }
-        }
-        for(int i=1;i<v.size();i++){
-            if(v[i]<=v[i-1])
+            root = st.top();
+            st.pop();
+            if(pre && pre->val >= root->val)
                 return false;
+            
+            pre = root;
+            root = root->right;
         }
+        
         return true;    
     }
 };
