@@ -1,11 +1,17 @@
 class Solution {
 public:
     int fib(int n) {
-        if(n==0)
-            return 0;
-        if(n==1)
-            return 1;
+        int dp[32];
+        memset(dp, -1, sizeof(dp));
+        return fibo(n, dp);
+    }
+    int fibo(int n, int dp[]){
+        if(n==0||n==1)
+            return n;
         
-        return fib(n-1) + fib(n-2);
+        if(dp[n]!=-1)
+            return dp[n];
+        
+        return dp[n] = fibo(n-1, dp) + fibo(n-2, dp);
     }
 };
